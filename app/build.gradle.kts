@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
-    id("com.google.gms.google-services")
+
 }
 
 android {
@@ -54,8 +54,6 @@ android {
 
 dependencies {
 
-    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
     val nav_version = "2.5.2"
     val coil_version = "2.1.0"
     val lifecycle_version = "2.5.1"
@@ -64,20 +62,16 @@ dependencies {
     val room_version = "2.4.2"
     val compose_ui_version = "1.5.4"
 
+    implementation("androidx.navigation:navigation-compose:$nav_version")
     // compose
     implementation("androidx.compose.ui:ui-tooling-preview:$compose_ui_version")
     implementation("androidx.compose.material:material:1.1.1")
-    implementation("androidx.navigation:navigation-compose:$nav_version")
 
     implementation("io.coil-kt:coil-compose:$coil_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
     // retro fit
     implementation ("com.squareup.retrofit2:retrofit:$retrofit_version")
     implementation ("com.squareup.retrofit2:converter-gson:$retrofit_version")
-    // moshi
-    implementation("com.squareup.moshi:moshi-kotlin:1.9.3")
-    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
-
     // room
     implementation("androidx.room:room-runtime:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
@@ -85,18 +79,6 @@ dependencies {
     //hilt dragger
     implementation ("com.google.dagger:hilt-android:$hilt_version")
     kapt ("com.google.dagger:hilt-compiler:$hilt_version")
-
-    // firebase firestore
-    implementation("com.google.firebase:firebase-firestore:24.10.0")
-    // firebase authentication
-    implementation("com.google.firebase:firebase-auth:22.3.0")
-
-    // glide
-    //implementation("com.github.bumptech.glide:glide:4.16.0")
-    //implementation("com.google.accompanist:accompanist-glide:0.20.0")
-    // coil
-    implementation("io.coil-kt:coil-compose:2.5.0")
-
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")

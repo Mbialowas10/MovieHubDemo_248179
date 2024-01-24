@@ -11,7 +11,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.mike.moviehubdemo.ui.theme.MovieHubDemoTheme
+import com.mike.moviehubdemo.view.FavoriteScreen
+import com.mike.moviehubdemo.view.MovieScreen
 
 sealed class Destination(val route: String){
     object Movie: Destination("movie")
@@ -36,21 +43,33 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     //Greeting("Android")
-                    val navController =
+                    val navController = rememberNavController()
                 }
             }
         }
     }
 }
 
+
 @Composable
-fun MovieScaffold(){
+fun MovieScaffold(navController: NavHostController){
    Scaffold(
        bottomBar={
        }
    ){
-       // paddingValues culates the size of the bottomBar
+       // paddingValues calculates the size of the bottomBar
        paddingValues ->
-         NavHost
+         //NavHost
+         NavHost(navController = navController, startDestination = Destination.Movie.route ){
+             composable(Destination.Movie.route){
+                 MovieScreen()
+             }
+             composable(Destination.Watch.route){
+                 FavoriteScreen()
+             }
+             composable(Destination.MovieDetail.route){navBackStackEntry ->
+                 // MovieDetailScreen()
+             }
+         }
    }
 }
