@@ -32,8 +32,22 @@ fun BottomNav(navController: NavController){
             icon = {
                 Icon(painter = ic_movie, contentDescription = "Movie Home Screen")
             },
-            label = { Text(text = Destination.Watch.route) }
+            label = { Text(text = Destination.Movie.route) }
                 
+            )
+            BottomNavigationItem(
+                selected = currentDestination?.route == Destination.Watch.route,
+                onClick = {
+                    navController.navigate(Destination.Watch.route){
+                        popUpTo(Destination.Watch.route)
+                        launchSingleTop = true
+                    }
+                },
+                icon = {
+                    Icon(painter = ic_watch, contentDescription = "Watch Screen")
+                },
+                label = { Text(text = Destination.Watch.route) }
+
             )
     }
 

@@ -17,6 +17,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mike.moviehubdemo.ui.theme.MovieHubDemoTheme
+import com.mike.moviehubdemo.view.BottomNav
 import com.mike.moviehubdemo.view.FavoriteScreen
 import com.mike.moviehubdemo.view.MovieScreen
 
@@ -44,6 +45,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     //Greeting("Android")
                     val navController = rememberNavController()
+                    MovieScaffold(navController = navController)
                 }
             }
         }
@@ -55,6 +57,7 @@ class MainActivity : ComponentActivity() {
 fun MovieScaffold(navController: NavHostController){
    Scaffold(
        bottomBar={
+           BottomNav(navController = navController)
        }
    ){
        // paddingValues calculates the size of the bottomBar
