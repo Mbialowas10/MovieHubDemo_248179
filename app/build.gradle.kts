@@ -72,6 +72,10 @@ dependencies {
     // retro fit
     implementation ("com.squareup.retrofit2:retrofit:$retrofit_version")
     implementation ("com.squareup.retrofit2:converter-gson:$retrofit_version")
+    // moshi
+    implementation("com.squareup.moshi:moshi-kotlin:1.9.3")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+
     // room
     implementation("androidx.room:room-runtime:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
