@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mike.moviehubdemo.api.MoviesManager
 import com.mike.moviehubdemo.ui.theme.MovieHubDemoTheme
 import com.mike.moviehubdemo.view.BottomNav
 import com.mike.moviehubdemo.view.FavoriteScreen
@@ -46,6 +47,9 @@ class MainActivity : ComponentActivity() {
                     //Greeting("Android")
                     val navController = rememberNavController()
                     MovieScaffold(navController = navController)
+
+                    // fetch movie data from api
+                    val MoviesManager:MoviesManager = MoviesManager()
                 }
             }
         }
