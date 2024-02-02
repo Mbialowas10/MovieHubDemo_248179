@@ -80,6 +80,10 @@ fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager
              composable(Destination.MovieDetail.route){navBackStackEntry ->
                  // MovieDetailScreen()
              }
+             composable(Destination.Search.route){
+                 SearchSreen()
+             }
+
          }
    }
 }
