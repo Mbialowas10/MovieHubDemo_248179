@@ -13,7 +13,8 @@ import retrofit2.Response
 
 class MoviesManager {
     private var _movieResponse = mutableStateOf<List<Movie>>(emptyList())
-    val api_key:String = "105eb33fc0b1d90e4346524a7e7a778e"
+    //val api_key:String = "105eb33fc0b1d90e4346524a7e7a778e"
+    val api_key:String = "df2c0933d248a9c91c0ed01e25054bd1"
 
     val movieResponse: MutableState<List<Movie>>
         @Composable get() = remember{
@@ -24,8 +25,10 @@ class MoviesManager {
         getMovies()
     }
 
-    private fun getMovies(){
-        val service = Api.retrofitService.getTrendingMovies(api_key)
+     private fun getMovies(){
+
+         val service = Api.retrofitService.getTrendingMovies(api_key)
+
 
         service.enqueue(object : Callback<MovieData>{
             override fun onResponse(
@@ -33,9 +36,10 @@ class MoviesManager {
                 response: Response<MovieData>
             ) {
                 if (response.isSuccessful){
-                    Log.i("Data", "Data Loaded")
+                    Log.i("mjb", "Data Loaded")
+                    Log.i("mike", response.body()?.results.toString())
                     _movieResponse.value = response.body()?.results?: emptyList()
-                    Log.i("DataStream", _movieResponse.toString())
+                    Log.i("mjb-array", _movieResponse.value.toString())
 
                 }
             }

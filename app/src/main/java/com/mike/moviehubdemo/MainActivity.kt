@@ -45,11 +45,14 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     //Greeting("Android")
-                    val navController = rememberNavController()
-                    MovieScaffold(navController = navController)
 
                     // fetch movie data from api
-                    val MoviesManager:MoviesManager = MoviesManager()
+                    val moviesManager:MoviesManager = MoviesManager()
+
+                    val navController = rememberNavController()
+                    MovieScaffold(navController = navController, moviesManager )
+
+
                 }
             }
         }
@@ -58,7 +61,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MovieScaffold(navController: NavHostController){
+fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager){
    Scaffold(
        bottomBar={
            BottomNav(navController = navController)
@@ -69,7 +72,7 @@ fun MovieScaffold(navController: NavHostController){
          //NavHost
          NavHost(navController = navController, startDestination = Destination.Movie.route ){
              composable(Destination.Movie.route){
-                 MovieScreen()
+                 MovieScreen(moviesManager,navController)
              }
              composable(Destination.Watch.route){
                  FavoriteScreen()

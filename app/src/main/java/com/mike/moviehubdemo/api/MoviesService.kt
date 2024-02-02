@@ -5,7 +5,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface MovieService {
-    @GET("/trending/movie/day")
+interface MoviesService {
+    @GET("trending/movie/day")
     fun getTrendingMovies(@Query("api_key") apiKey:String): Call<MovieData>
 }

@@ -15,13 +15,13 @@ object Api {
 
     // initialization of retrofit instance
     private val retrofit = Retrofit.Builder()
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
         .baseUrl(BASE_URL)
         .build()
 
-    val retrofitService: MovieService by lazy{
+    val retrofitService: MoviesService by lazy{
         // instantiate our retrofit service ie. the movieService
-        retrofit.create(MovieService::class.java)
+        retrofit.create(MoviesService::class.java)
     }
 
 }
