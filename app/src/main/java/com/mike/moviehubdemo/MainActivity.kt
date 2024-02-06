@@ -21,6 +21,7 @@ import com.mike.moviehubdemo.ui.theme.MovieHubDemoTheme
 import com.mike.moviehubdemo.view.BottomNav
 import com.mike.moviehubdemo.view.FavoriteScreen
 import com.mike.moviehubdemo.view.MovieScreen
+import com.mike.moviehubdemo.view.SearchScreen
 
 sealed class Destination(val route: String){
     object Movie: Destination("movie")
@@ -81,7 +82,8 @@ fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager
                  // MovieDetailScreen()
              }
              composable(Destination.Search.route){
-                 SearchSreen()
+                 SearchScreen(navController)
+
              }
 
          }
