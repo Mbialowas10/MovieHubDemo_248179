@@ -36,7 +36,7 @@ fun MovieCard(
             .padding(5.dp)
             .clickable {
                 // add the ability to go to detail page
-                navController.navigate("movieDetail/${movieItem.id}")
+                navController.navigate("movieDetail/${movieItem.id}/${movieItem.title}")
             }
     ) {
         Row(
