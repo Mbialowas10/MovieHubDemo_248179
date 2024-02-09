@@ -35,7 +35,8 @@ fun MovieCard(
             .border(1.dp, Color.Red, shape = RectangleShape)
             .padding(5.dp)
             .clickable {
-                // TODO
+                // add the ability to go to detail page
+                navController.navigate("movieDetail/${movieItem.id}")
             }
     ) {
         Row(

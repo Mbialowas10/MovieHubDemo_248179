@@ -17,9 +17,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mike.moviehubdemo.api.MoviesManager
+import com.mike.moviehubdemo.model.Movie
 import com.mike.moviehubdemo.ui.theme.MovieHubDemoTheme
 import com.mike.moviehubdemo.view.BottomNav
 import com.mike.moviehubdemo.view.FavoriteScreen
+import com.mike.moviehubdemo.view.MovieDetailScreen
 import com.mike.moviehubdemo.view.MovieScreen
 import com.mike.moviehubdemo.view.SearchScreen
 
@@ -79,7 +81,13 @@ fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager
                  FavoriteScreen()
              }
              composable(Destination.MovieDetail.route){navBackStackEntry ->
-                 // MovieDetailScreen()
+                val movie = Movie(id=3333,title="Fake Movie")
+                 //navController.currentBackStackEntry?.savedStateHandle?.set("movie",movie)
+                 val movie_id:String? = navBackStackEntry.arguments?.getString("movieID")
+                 if (movie != null){
+                    MovieDetailScreen(movie)
+                }
+             // MovieDetailScreen()
              }
              composable(Destination.Search.route){
                  SearchScreen(navController)
