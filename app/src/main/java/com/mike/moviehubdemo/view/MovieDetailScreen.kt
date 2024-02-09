@@ -6,11 +6,11 @@ import androidx.compose.runtime.Composable
 import com.mike.moviehubdemo.model.Movie
 
 @Composable
-fun MovieDetailScreen(movie: Movie){
+fun MovieDetailScreen(movieID:String){
     Column(){
         Text(text="Movie Detail Screen")
-        Text(text="${movie.id}")
-        Text(text="${movie.title}")
+        Text(text="${movieID}")
+        //Text(text="${movie.title}")
     }
 
 }

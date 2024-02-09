@@ -1,6 +1,7 @@
 package com.mike.moviehubdemo
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,7 +34,7 @@ sealed class Destination(val route: String){
     object Watch: Destination("watch")
 
     object MovieDetail: Destination("movieDetail/{movieID}"){
-        fun createRoute(movieID: Int?) = "movieDetail/$movieID"
+        //fun createRoute(movieID: Int?) = "movieDetail/$movieID"
     }
 }
 
@@ -81,11 +82,14 @@ fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager
                  FavoriteScreen()
              }
              composable(Destination.MovieDetail.route){navBackStackEntry ->
-                val movie = Movie(id=3333,title="Fake Movie")
+                val movie = Movie(id=9999,title="Fake Movie")
                  //navController.currentBackStackEntry?.savedStateHandle?.set("movie",movie)
                  val movie_id:String? = navBackStackEntry.arguments?.getString("movieID")
+                 Log.i("MovieID", movie_id.toString())
                  if (movie != null){
-                    MovieDetailScreen(movie)
+                     if (movie_id != null) {
+                         MovieDetailScreen(movie_id)
+                     }
                 }
              // MovieDetailScreen()
              }
