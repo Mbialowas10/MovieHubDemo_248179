@@ -54,6 +54,7 @@ android {
 
 dependencies {
 
+    implementation("androidx.databinding:adapters:3.2.0-alpha11")
     val nav_version = "2.5.2"
     val coil_version = "2.1.0"
     val lifecycle_version = "2.5.1"

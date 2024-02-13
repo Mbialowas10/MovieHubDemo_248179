@@ -25,7 +25,7 @@ class MoviesManager(database: AppDatabase) {
         }
 
     init{
-        getMovies()
+        getMovies(database)
     }
 
      private fun getMovies(database: AppDatabase){
