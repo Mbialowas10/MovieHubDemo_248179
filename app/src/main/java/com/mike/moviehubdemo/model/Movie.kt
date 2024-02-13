@@ -1,9 +1,11 @@
 package com.mike.moviehubdemo.model
 
 
+import androidx.room.Entity
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
+@Entity(tableName = "tbl_movies")
 @JsonClass(generateAdapter = true)
 data class Movie(
     @Json(name = "adult")
