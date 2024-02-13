@@ -33,7 +33,7 @@ sealed class Destination(val route: String){
 
     object Watch: Destination("watch")
 
-    object MovieDetail: Destination("movieDetail/{movieID}"){
+    object MovieDetail: Destination("movieDetail/{movieID}/{title}"){
         //fun createRoute(movieID: Int?) = "movieDetail/$movieID"
     }
 }
@@ -85,10 +85,13 @@ fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager
                 val movie = Movie(id=9999,title="Fake Movie")
                  //navController.currentBackStackEntry?.savedStateHandle?.set("movie",movie)
                  val movie_id:String? = navBackStackEntry.arguments?.getString("movieID")
+                 val movie_title:String? = navBackStackEntry.arguments?.getString("title")
                  Log.i("MovieID", movie_id.toString())
                  if (movie != null){
                      if (movie_id != null) {
-                         MovieDetailScreen(movie_id)
+                         if (movie_title != null) {
+                             MovieDetailScreen(movie_id,movie_title)
+                         }
                      }
                 }
              // MovieDetailScreen()
