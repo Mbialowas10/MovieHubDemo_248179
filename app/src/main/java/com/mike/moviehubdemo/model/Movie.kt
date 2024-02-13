@@ -2,6 +2,7 @@ package com.mike.moviehubdemo.model
 
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -9,33 +10,34 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Movie(
     @Json(name = "adult")
-    val adult: Boolean? =null,
+    var adult: Boolean? =null,
     @Json(name = "backdrop_path")
-    val backdropPath: String? = null,
+    var backdropPath: String? = null,
     @Json(name = "genre_ids")
-    val genreIds: List<Int>? = null,
+    var genreIds: List<Int>? = null,
     @Json(name = "id")
-    val id: Int? = null,
+    @PrimaryKey
+    var id: Int? = null,
     @Json(name = "media_type")
-    val mediaType: String? = null,
+    var mediaType: String? = null,
     @Json(name = "original_language")
-    val originalLanguage: String? = null,
+    var originalLanguage: String? = null,
     @Json(name = "original_title")
-    val originalTitle: String? = null,
+    var originalTitle: String? = null,
     @Json(name = "overview")
-    val overview: String? = null,
+    var overview: String? = null,
     @Json(name = "popularity")
-    val popularity: Double? = null,
+    var popularity: Double? = null,
     @Json(name = "poster_path")
-    val posterPath: String? = null,
+    var posterPath: String? = null,
     @Json(name = "release_date")
-    val releaseDate: String? = null,
+    var releaseDate: String? = null,
     @Json(name = "title")
-    val title: String? = null,
+    var title: String? = null,
     @Json(name = "video")
-    val video: Boolean? = null,
+    var video: Boolean? = null,
     @Json(name = "vote_average")
-    val voteAverage: Double? = null,
+    var voteAverage: Double? = null,
     @Json(name = "vote_count")
-    val voteCount: Int? = null
+    var voteCount: Int? = null
 )
