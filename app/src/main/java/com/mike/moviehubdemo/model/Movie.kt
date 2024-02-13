@@ -1,10 +1,12 @@
 package com.mike.moviehubdemo.model
 
 
+import androidx.room.Entity
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
+@Entity(tableName = "movies")
 data class Movie(
     @Json(name = "adult")
     val adult: Boolean? =null,

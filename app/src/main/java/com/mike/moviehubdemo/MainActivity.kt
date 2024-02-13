@@ -1,5 +1,6 @@
 package com.mike.moviehubdemo
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -11,6 +12,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -18,6 +20,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mike.moviehubdemo.api.MoviesManager
+import com.mike.moviehubdemo.db.AppDatabase
 import com.mike.moviehubdemo.model.Movie
 import com.mike.moviehubdemo.ui.theme.MovieHubDemoTheme
 import com.mike.moviehubdemo.view.BottomNav
@@ -48,10 +51,14 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    //Greeting("Android")
+                    // get context
+                    var context: Context = LocalContext.current
+
+                    // get database instance
+                    val db = AppDatabase.getInstance(this)
 
                     // fetch movie data from api
-                    val moviesManager:MoviesManager = MoviesManager()
+                    val moviesManager:MoviesManager = MoviesManager(db)
 
                     val navController = rememberNavController()
                     MovieScaffold(navController = navController, moviesManager )
