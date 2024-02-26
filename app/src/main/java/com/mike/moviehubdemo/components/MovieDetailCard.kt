@@ -1,13 +1,10 @@
-package com.mike.moviehubdemo.view
+package com.mike.moviehubdemo.components
 
-import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,25 +13,28 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.mike.moviehubdemo.components.MovieDetailCard
 import com.mike.moviehubdemo.model.Movie
 
 @Composable
-fun MovieDetailScreen(
-    movie: Movie?
+fun MovieDetailCard(
+    movieItem: Movie
+    //title:String
 ){
-    val context: Context = LocalContext.current
-    Log.i("MovieTest", movie.toString())
-
-    if (movie != null) {
-        MovieDetailCard(movieItem = movie )
+    Column(
+        modifier = Modifier
+            .border(1.dp, Color.Red, shape = RectangleShape)
+            .padding(5.dp)
+    ){
+        AsyncImage(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.5f),
+            model = ImageRequest.Builder(
+                LocalContext.current)
+                .data("https://image.tmdb.org/t/p/w500/${movieItem.posterPath}")
+                .build() ,
+            contentDescription = movieItem.overview
+        )
     }
-
-//    Column(){
-//        Text(text="Movie Detail Screen")
-//        Text(text="${movieID}")
-//        Text(text="${title}")
-//
-//    }
 
 }

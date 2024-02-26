@@ -12,6 +12,6 @@ interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllMovies(movies: List<Movie>?)
 
-//    @Query("SELECT * FROM popular_movies WHERE id = :id")
-//    fun getMovieById(id: Int):Movie
+    @Query("SELECT * FROM tbl_movies WHERE id = :id")
+    fun getMovieById(id: Int):Movie
 }

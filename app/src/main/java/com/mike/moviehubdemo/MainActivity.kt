@@ -11,6 +11,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,6 +32,8 @@ import com.mike.moviehubdemo.view.FavoriteScreen
 import com.mike.moviehubdemo.view.MovieDetailScreen
 import com.mike.moviehubdemo.view.MovieScreen
 import com.mike.moviehubdemo.view.SearchScreen
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 sealed class Destination(val route: String){
     object Movie: Destination("movie")
@@ -36,7 +42,7 @@ sealed class Destination(val route: String){
 
     object Watch: Destination("watch")
 
-    object MovieDetail: Destination("movieDetail/{movieID}/{title}"){
+    object MovieDetail: Destination("movieDetail/{movieID}"){
         //fun createRoute(movieID: Int?) = "movieDetail/$movieID"
     }
 }
@@ -61,7 +67,7 @@ class MainActivity : ComponentActivity() {
                     val moviesManager:MoviesManager = MoviesManager(db)
 
                     val navController = rememberNavController()
-                    MovieScaffold(navController = navController, moviesManager )
+                    MovieScaffold(navController = navController, moviesManager, db )
 
 
                 }
@@ -72,8 +78,11 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager){
-   Scaffold(
+fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager, db:AppDatabase){
+   var movie by remember {
+       mutableStateOf<Movie?>(null)
+   }
+    Scaffold(
        bottomBar={
            BottomNav(navController = navController)
        }
@@ -89,17 +98,21 @@ fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager
                  FavoriteScreen()
              }
              composable(Destination.MovieDetail.route){navBackStackEntry ->
-                val movie = Movie(id=9999,title="Fake Movie")
+                 //val movie = Movie(id=9999,title="Fake Movie")
                  //navController.currentBackStackEntry?.savedStateHandle?.set("movie",movie)
                  val movie_id:String? = navBackStackEntry.arguments?.getString("movieID")
-                 val movie_title:String? = navBackStackEntry.arguments?.getString("title")
+
+                 GlobalScope.launch {
+                     if (movie_id != null ){
+                         movie = db.movieDao().getMovieById(movie_id.toInt())
+                     }
+                 }
+                 navController.currentBackStackEntry?.savedStateHandle?.set("movie",movie)
+                 
+                 //val movie_title:String? = navBackStackEntry.arguments?.getString("title")
                  Log.i("MovieID", movie_id.toString())
                  if (movie != null){
-                     if (movie_id != null) {
-                         if (movie_title != null) {
-                             MovieDetailScreen(movie_id,movie_title)
-                         }
-                     }
+                     MovieDetailScreen(movie = movie)
                 }
              // MovieDetailScreen()
              }

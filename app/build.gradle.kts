@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt") // kotlin annotation processing tool
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 
 }
 
@@ -54,6 +55,7 @@ android {
 
 dependencies {
 
+    implementation("com.google.firebase:firebase-firestore:24.10.2")
     val nav_version = "2.5.2"
     val coil_version = "2.1.0"
     val lifecycle_version = "2.5.1"
