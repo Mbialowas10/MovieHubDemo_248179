@@ -16,18 +16,20 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mike.moviehubdemo.components.MovieDetailCard
 import com.mike.moviehubdemo.model.Movie
 
 @Composable
 fun MovieDetailScreen(
-    movie: Movie?
+    movie: Movie?,
+    fs_db: FirebaseFirestore
 ){
     val context: Context = LocalContext.current
     Log.i("MovieTest", movie.toString())
 
     if (movie != null) {
-        MovieDetailCard(movieItem = movie )
+        MovieDetailCard(movieItem = movie, fs_db )
     }
 
 //    Column(){

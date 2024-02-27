@@ -1,5 +1,7 @@
 package com.mike.moviehubdemo.components
 
+import android.provider.Settings
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -33,16 +35,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mike.moviehubdemo.model.Movie
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 @Composable
 fun MovieDetailCard(
-    movieItem: Movie
-    //title:String
+    movieItem: Movie,
+    fs_db: FirebaseFirestore
 ) {
 
     var movieIconState:Boolean by remember{
         mutableStateOf(false)
+    }
+    var lastInsertedDocument by remember {
+        mutableStateOf<DocumentReference?>(null)
     }
 
     Column(
@@ -123,7 +134,56 @@ fun MovieDetailCard(
                 Button(
                     onClick = {
                         movieIconState = !movieIconState
-                    }
+                        val library: CollectionReference =
+                            FirebaseFirestore.getInstance().collection("movies_library")
+                        var movieExists: Boolean? = null
+
+                        val movie = hashMapOf(
+                            "movie_id" to "${movieItem.id}",
+                            "movie_title" to "${movieItem.title}",
+                            "movie_overview" to "${movieItem.overview}",
+                            "movie_poster_path" to "${movieItem.posterPath}",
+                            "movie_release_date" to "${movieItem.releaseDate}",
+                            "movie_popularity" to "${movieItem.popularity}",
+                            "movie_avg_vote" to "${movieItem.voteAverage}",
+                            "movie_vote_count" to "${movieItem.voteCount}"
+                        )
+                        GlobalScope.launch {
+                            movieExists = doesMovieExist(movieItem.id.toString(), library)
+
+                            if (movieIconState) {
+
+                                if (movieExists == true) {
+                                    Log.d(
+                                        "FS",
+                                        "Sorry but you can't insert the same move. Please try again."
+                                    )
+                                } else {
+                                    fs_db.collection("movies_library")
+                                        .add(movie)
+                                        .addOnSuccessListener { documentReference ->
+                                            // todo - keep track of last inserted document
+                                            lastInsertedDocument = documentReference
+                                            Log.d(
+                                                "FS",
+                                                "DocumentSnapshot added with ID: ${documentReference.id}"
+                                            )
+                                        }
+                                        .addOnFailureListener { e ->
+                                            Log.d("FS", "Error adding document", e)
+                                        }
+                                }
+                            } else if (!movieIconState) {
+                                lastInsertedDocument?.delete()
+                                    ?.addOnSuccessListener { e ->
+                                        Log.i(
+                                            "Removal",
+                                            "THERE WAS A PROBLEM REMOVING THE RECORD FROM FS ${e}"
+                                        )
+                                    }
+                            }
+                        }
+                    }, //end onclick
                 ) {
                     Icon(
                         modifier = Modifier
@@ -139,4 +199,8 @@ fun MovieDetailCard(
             }
         }
     }
+}
+suspend fun doesMovieExist(movieID:String, collection:CollectionReference): Boolean{
+    val querySnapshot = collection.whereEqualTo("movie_id", movieID).get().await()
+    return !querySnapshot.isEmpty
 }
