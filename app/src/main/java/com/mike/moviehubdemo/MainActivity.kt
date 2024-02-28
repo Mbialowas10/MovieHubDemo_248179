@@ -101,7 +101,7 @@ fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager
                  MovieScreen(moviesManager,navController)
              }
              composable(Destination.Watch.route){
-                 FavoriteScreen()
+                 FavoriteScreen(navController)
              }
              composable(Destination.MovieDetail.route){navBackStackEntry ->
                  //val movie = Movie(id=9999,title="Fake Movie")
