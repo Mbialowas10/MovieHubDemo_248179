@@ -56,6 +56,9 @@ android {
 dependencies {
 
     implementation("com.google.firebase:firebase-firestore:24.10.2")
+    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
     val nav_version = "2.5.2"
     val coil_version = "2.1.0"
     val lifecycle_version = "2.5.1"
