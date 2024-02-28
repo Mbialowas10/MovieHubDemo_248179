@@ -23,6 +23,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
+
 import com.mike.moviehubdemo.api.MoviesManager
 import com.mike.moviehubdemo.db.AppDatabase
 import com.mike.moviehubdemo.model.Movie
@@ -66,8 +70,11 @@ class MainActivity : ComponentActivity() {
                     // fetch movie data from api
                     val moviesManager:MoviesManager = MoviesManager(db)
 
+                    // initialize cloud firestore
+                    val fs_db = Firebase.firestore
+
                     val navController = rememberNavController()
-                    MovieScaffold(navController = navController, moviesManager, db )
+                    MovieScaffold(navController = navController, moviesManager, db,fs_db )
 
 
                 }
@@ -78,7 +85,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager, db:AppDatabase){
+fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager, db:AppDatabase,fs_db: FirebaseFirestore){
     var movie by remember {
         mutableStateOf<Movie?>(null)
     }
@@ -113,7 +120,7 @@ fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager
                  navController.currentBackStackEntry?.savedStateHandle?.set("movie",movie)
 
                  if (movie != null){
-                    MovieDetailScreen(movie = movie)
+                    MovieDetailScreen(movie = movie, fs_db)
                 }
              // MovieDetailScreen()
              }
