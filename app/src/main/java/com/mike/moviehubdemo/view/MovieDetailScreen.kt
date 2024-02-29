@@ -14,22 +14,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.firebase.firestore.FirebaseFirestore
+import com.mike.moviehubdemo.api.MovieViewModel
 import com.mike.moviehubdemo.components.MovieDetailCard
 import com.mike.moviehubdemo.model.Movie
 
 @Composable
 fun MovieDetailScreen(
     movie: Movie?,
-    fs_db: FirebaseFirestore
+    fs_db: FirebaseFirestore,
+    viewModel: MovieViewModel
 ){
     val context: Context = LocalContext.current
     Log.i("MovieTest", movie.toString())
 
     if (movie != null) {
-        MovieDetailCard(movieItem = movie, fs_db )
+        MovieDetailCard(movieItem = movie, fs_db, viewModel )
     }
 
 //    Column(){

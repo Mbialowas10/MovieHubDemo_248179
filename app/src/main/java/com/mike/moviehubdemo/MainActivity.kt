@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -26,6 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import com.mike.moviehubdemo.api.MovieViewModel
 import com.mike.moviehubdemo.api.MoviesManager
 import com.mike.moviehubdemo.db.AppDatabase
 import com.mike.moviehubdemo.model.Movie
@@ -72,8 +74,11 @@ class MainActivity : ComponentActivity() {
                     // initialize cloud firestore
                     val fs_db = Firebase.firestore
 
+                    // initialize the MovieViewModel
+                    val viewModel: MovieViewModel = viewModel()
+
                     val navController = rememberNavController()
-                    MovieScaffold(navController = navController, moviesManager, db, fs_db )
+                    MovieScaffold(navController = navController, moviesManager, db, fs_db, viewModel )
 
 
                 }
@@ -84,7 +89,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager, db:AppDatabase, fs_db: FirebaseFirestore){
+fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager, db:AppDatabase, fs_db: FirebaseFirestore, viewModel: MovieViewModel){
    var movie by remember {
        mutableStateOf<Movie?>(null)
    }
@@ -98,7 +103,7 @@ fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager
          //NavHost
          NavHost(navController = navController, startDestination = Destination.Movie.route ){
              composable(Destination.Movie.route){
-                 MovieScreen(moviesManager,navController)
+                 MovieScreen(moviesManager,navController, viewModel)
              }
              composable(Destination.Watch.route){
                  FavoriteScreen(navController)
@@ -118,7 +123,7 @@ fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager
                  //val movie_title:String? = navBackStackEntry.arguments?.getString("title")
                  Log.i("MovieID", movie_id.toString())
                  if (movie != null){
-                     MovieDetailScreen(movie = movie, fs_db)
+                     MovieDetailScreen(movie = movie, fs_db, viewModel )
                 }
              // MovieDetailScreen()
              }

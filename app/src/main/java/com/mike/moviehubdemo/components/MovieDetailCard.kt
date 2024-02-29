@@ -38,6 +38,7 @@ import coil.request.ImageRequest
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.mike.moviehubdemo.api.MovieViewModel
 import com.mike.moviehubdemo.model.Movie
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -46,11 +47,12 @@ import kotlinx.coroutines.tasks.await
 @Composable
 fun MovieDetailCard(
     movieItem: Movie,
-    fs_db: FirebaseFirestore
+    fs_db: FirebaseFirestore,
+    viewModel: MovieViewModel
 ) {
 
     var movieIconState:Boolean by remember{
-        mutableStateOf(false)
+        mutableStateOf(viewModel.getMovieIconState(movieItem.id!!))
     }
     var lastInsertedDocument by remember {
         mutableStateOf<DocumentReference?>(null)
@@ -134,6 +136,8 @@ fun MovieDetailCard(
                 Button(
                     onClick = {
                         movieIconState = !movieIconState
+                        movieItem.id?.let { viewModel.setMovieIconState(it, movieIconState ) }
+
                         val library: CollectionReference =
                             FirebaseFirestore.getInstance().collection("movies_library")
                         var movieExists: Boolean? = null
@@ -146,7 +150,10 @@ fun MovieDetailCard(
                             "movie_release_date" to "${movieItem.releaseDate}",
                             "movie_popularity" to "${movieItem.popularity}",
                             "movie_avg_vote" to "${movieItem.voteAverage}",
-                            "movie_vote_count" to "${movieItem.voteCount}"
+                            "movie_vote_count" to "${movieItem.voteCount}",
+                            "isIconChanged" to viewModel.getMovieIconState(movieItem.id!!)
+
+
                         )
                         GlobalScope.launch {
                             movieExists = doesMovieExist(movieItem.id.toString(), library)

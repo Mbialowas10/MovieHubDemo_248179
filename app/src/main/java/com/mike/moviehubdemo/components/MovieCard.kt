@@ -24,11 +24,13 @@ import coil.request.ImageRequest
 import com.mike.moviehubdemo.model.Movie
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
+import com.mike.moviehubdemo.api.MovieViewModel
 
 @Composable
 fun MovieCard(
     movieItem: Movie,
-    navController: NavController
+    navController: NavController,
+    viewModel: MovieViewModel
 ){
     Column(
         modifier = Modifier

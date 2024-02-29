@@ -77,7 +77,7 @@ fun MovieSearchForm(navController: NavController){
 
         LazyColumn{
             items(movies){ movie ->
-                MovieCard(movieItem = movie, navController = navController)
+                MovieCard(movieItem = movie, navController = navController, viewModel)
 
             }
         }

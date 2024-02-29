@@ -3,8 +3,10 @@ package com.mike.moviehubdemo.api
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.mike.moviehubdemo.model.Movie
 import com.mike.moviehubdemo.model.MovieData
@@ -15,6 +17,14 @@ import retrofit2.Response
 class MovieViewModel : ViewModel() {
 
     val movies = mutableStateOf<List<Movie>>(emptyList())
+    private val movieIconState = mutableMapOf<Int, Boolean>() //store icon states for each movie
+
+    val getMovieIconState: (Int) -> Boolean
+        get() = {  movieID -> movieIconState.getOrDefault(movieID, false) }
+
+    fun setMovieIconState(movieID: Int, value: Boolean) {
+        movieIconState[movieID] = value
+    }
 
     val moviesResponse: MutableState<List<Movie>> // state allows us to make data available within app
         @Composable get() = remember{

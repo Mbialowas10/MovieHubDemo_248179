@@ -51,7 +51,7 @@ fun FavoriteScreen(navController: NavController) {
                     posterPath = dataMap["movie_poster_path"] as? String,
                     releaseDate = dataMap["movie_release_date"] as? String,
                     title = dataMap["movie_title"] as? String,
-                    //isIconChanged = dataMap["isIconChanged"] as? Boolean
+                    isIconChanged = dataMap["isIconChanged"] as? Boolean
 
 
                     // Map other fields as needed
@@ -66,7 +66,7 @@ fun FavoriteScreen(navController: NavController) {
 
     LazyColumn{
         items(data){movie ->
-            MovieCard(movieItem=movie, navController)
+            MovieCard(movieItem=movie, navController, viewModel = viewModel())
         }
 
 

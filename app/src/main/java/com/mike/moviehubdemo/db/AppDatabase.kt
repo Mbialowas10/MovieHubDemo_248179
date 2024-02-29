@@ -10,7 +10,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.mike.moviehubdemo.model.Movie
 import com.mike.moviehubdemo.utility.Converters
 
-@Database(entities=[Movie::class], version=3, exportSchema=false)
+@Database(entities=[Movie::class], version=4, exportSchema=false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase(){
     //need reference to DAO object
@@ -26,7 +26,7 @@ abstract class AppDatabase: RoomDatabase(){
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "MovieHub Demo Database").addMigrations(MIGRATION_3_4)
+                    "MovieHub Demo Database").addMigrations(MIGRATION_4_5)
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
@@ -34,7 +34,7 @@ abstract class AppDatabase: RoomDatabase(){
 
             }
         }
-        val MIGRATION_3_4 = object : Migration(3,4){
+        val MIGRATION_4_5 = object : Migration(4,5){
             override fun migrate(database: SupportSQLiteDatabase) {
                 // Your migration logic here
                 // For example, you can recreate the table
