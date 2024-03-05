@@ -6,6 +6,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
+import com.mike.moviehubdemo.db.AppDatabase
 import com.mike.moviehubdemo.model.Movie
 import com.mike.moviehubdemo.model.MovieData
 import retrofit2.Call
@@ -23,7 +24,7 @@ class MovieViewModel : ViewModel() {
 
         val api_key:String = "df2c0933d248a9c91c0ed01e25054bd1"
 
-        fun searchMovies(movieName: String){
+        fun searchMovies(movieName: String, database: AppDatabase){
             if (movieName.isNotBlank()){
                 // this is how we call the search Movie endpoint specified in MoviesService interface (api call)
                 val service = Api.retrofitService.searchMovieByName(api_key,movieName)
@@ -33,6 +34,10 @@ class MovieViewModel : ViewModel() {
                             Log.i("MJB", "testing testing")
                             movies.value = response.body()?.results?:emptyList()
                             Log.i("MovieFound", movies.toString())
+
+                            // good place to insertMovies into local DB?
+                            database.movieDao().insertAllMovies(movies=movies.value)
+
                         }
                     }
 

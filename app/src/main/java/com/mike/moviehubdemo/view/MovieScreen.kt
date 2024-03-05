@@ -8,11 +8,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
+import com.mike.moviehubdemo.api.MovieViewModel
 import com.mike.moviehubdemo.api.MoviesManager
 import com.mike.moviehubdemo.components.MovieCard
 
 @Composable
-fun MovieScreen(moviesManager: MoviesManager, navController: NavController){
+fun MovieScreen(moviesManager: MoviesManager, navController: NavController,viewModel: MovieViewModel){
 
     val movies = moviesManager.movieResponse.value
     Log.i("mjb", movies.toString())
@@ -23,7 +24,7 @@ fun MovieScreen(moviesManager: MoviesManager, navController: NavController){
     }
     LazyColumn{
         items(movies){ movie->
-            MovieCard(movieItem=movie, navController)
+            MovieCard(movieItem=movie, navController, viewModel)
         }
 
     }

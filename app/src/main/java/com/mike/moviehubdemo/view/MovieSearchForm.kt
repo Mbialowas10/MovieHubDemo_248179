@@ -28,16 +28,21 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.mike.moviehubdemo.api.MovieViewModel
 import com.mike.moviehubdemo.components.MovieCard
+import com.mike.moviehubdemo.db.AppDatabase
 import com.mike.moviehubdemo.model.Movie
 
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun MovieSearchForm(navController: NavController){
+fun MovieSearchForm(navController: NavController, viewModel: MovieViewModel){
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val viewModel: MovieViewModel = viewModel()
     val movies: List<Movie> = viewModel.movies.value // get searched movies
+
+
+    // get database instance
+    val db = AppDatabase.getInstance(LocalContext.current)
 
 
     var query by remember { mutableStateOf("")}
@@ -55,7 +60,7 @@ fun MovieSearchForm(navController: NavController){
             keyboardOptions = KeyboardOptions(imeAction= ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = {
                 // add view model in a bit
-              viewModel.searchMovies(query)
+              viewModel.searchMovies(query,db)
               keyboardController?.hide()
             }),
             modifier = Modifier
@@ -65,19 +70,19 @@ fun MovieSearchForm(navController: NavController){
         Button(
             onClick ={
                 // view model to go next
-                viewModel.searchMovies(query)
+                viewModel.searchMovies(query,db)
             }
         ){
             Text("Search")
         }
         // thread aka corountine in android
         LaunchedEffect(viewModel){
-            viewModel.searchMovies(query)
+            viewModel.searchMovies(query,db)
         }
 
         LazyColumn{
             items(movies){ movie ->
-                MovieCard(movieItem = movie, navController = navController)
+                MovieCard(movieItem = movie, navController = navController, viewModel)
 
             }
         }
