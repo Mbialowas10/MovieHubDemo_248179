@@ -62,6 +62,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    // fetch logged in user
+                    val userID = intent.getStringExtra("userID")
+
                     // get context
                     var context: Context = LocalContext.current
 
@@ -78,7 +81,9 @@ class MainActivity : ComponentActivity() {
                     val viewModel: MovieViewModel = viewModel()
 
                     val navController = rememberNavController()
-                    MovieScaffold(navController = navController, moviesManager, db, fs_db, viewModel)
+                    if (userID != null) {
+                        MovieScaffold(navController = navController, moviesManager, db, fs_db,userID, viewModel)
+                    }
 
 
                 }
@@ -89,7 +94,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager, db:AppDatabase, fs_db: FirebaseFirestore, movieViewModel: MovieViewModel){
+fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager, db:AppDatabase, fs_db: FirebaseFirestore, user:String, movieViewModel: MovieViewModel){
    var movie by remember {
        mutableStateOf<Movie?>(null)
    }
@@ -103,7 +108,7 @@ fun MovieScaffold(navController: NavHostController, moviesManager: MoviesManager
          //NavHost
          NavHost(navController = navController, startDestination = Destination.Movie.route ){
              composable(Destination.Movie.route){
-                 MovieScreen(moviesManager,navController, movieViewModel)
+                 MovieScreen(moviesManager,navController, movieViewModel, user)
              }
              composable(Destination.Watch.route){
                  FavoriteScreen(navController)

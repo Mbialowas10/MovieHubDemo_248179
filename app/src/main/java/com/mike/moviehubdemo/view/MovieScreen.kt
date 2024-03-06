@@ -13,19 +13,26 @@ import com.mike.moviehubdemo.api.MoviesManager
 import com.mike.moviehubdemo.components.MovieCard
 
 @Composable
-fun MovieScreen(moviesManager: MoviesManager, navController: NavController,viewModel: MovieViewModel){
+fun MovieScreen(moviesManager: MoviesManager, navController: NavController,viewModel: MovieViewModel, user:String){
 
     val movies = moviesManager.movieResponse.value
     Log.i("mjb", movies.toString())
-    Text(text="Movie Screen")
+    //Text(text="Movie Screen")
 
     for(movie in movies){
         Log.i("name", "${movie.title}")
     }
-    LazyColumn{
-        items(movies){ movie->
-            MovieCard(movieItem=movie, navController, viewModel)
+    Column {
+        Row{
+            Text(text = "Welcome back: $user")
         }
+        LazyColumn{
+            items(movies){ movie->
+                MovieCard(movieItem=movie, navController, viewModel)
+            }
 
+        }
     }
+
+
 }

@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModel
 import com.mike.moviehubdemo.db.AppDatabase
 import com.mike.moviehubdemo.model.Movie
 import com.mike.moviehubdemo.model.MovieData
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,7 +38,10 @@ class MovieViewModel : ViewModel() {
                             Log.i("MovieFound", movies.toString())
 
                             // good place to insertMovies into local DB?
-                            database.movieDao().insertAllMovies(movies=movies.value)
+                            GlobalScope.launch {
+                                database.movieDao().insertAllMovies(movies=movies.value)
+                            }
+
 
                         }
                     }

@@ -37,9 +37,8 @@ import com.mike.moviehubdemo.model.Movie
 fun MovieSearchForm(navController: NavController, viewModel: MovieViewModel){
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
-    val viewModel: MovieViewModel = viewModel()
-    val movies: List<Movie> = viewModel.movies.value // get searched movies
 
+    val movies: List<Movie> = viewModel.movies.value // get searched movies
 
     // get database instance
     val db = AppDatabase.getInstance(LocalContext.current)

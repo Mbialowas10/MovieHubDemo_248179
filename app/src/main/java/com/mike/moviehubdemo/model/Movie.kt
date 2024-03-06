@@ -11,6 +11,7 @@ import com.squareup.moshi.JsonClass
 @Entity(tableName = "tbl_movies")
 @JsonClass(generateAdapter = true)
 data class Movie(
+    var isIconChanged: Boolean? = null,
     @Json(name = "adult")
     var adult: Boolean? =null,
     @Json(name = "backdrop_path")
@@ -44,7 +45,7 @@ data class Movie(
     var voteCount: Int? = null
 ) : Parcelable{
         constructor(parcel: Parcel) : this(
-
+            parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
             parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
             parcel.readString(),
             TODO("genreIds"),
@@ -63,7 +64,7 @@ data class Movie(
         ){
         }
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        //parcel.writeValue(isIconChanged)
+        parcel.writeValue(isIconChanged)
         parcel.writeValue(adult)
         parcel.writeString(backdropPath)
         parcel.writeValue(id)
